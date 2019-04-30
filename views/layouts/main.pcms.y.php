@@ -36,7 +36,7 @@ AppAsset::register($this);
 			'options' => ['class' => ['navbar-dark', 'bg-dark', 'navbar-expand-md']]		
 	]); 
 	// generate links to pages
-	function pMenuItem($caption, $page) {
+	function pMenuItem($caption, $page, $route) {
 		//['label' => 'Főoldal', 'url' => Url::to(['site/index', 'page' => 'index']), 'active' => isset($_GET['page'])&&($_GET['page']=='index')]
 		
 		if (isset($_GET['page2'])) 
@@ -49,7 +49,7 @@ AppAsset::register($this);
 		
 		$item = [
 			'label'  => $caption,
-			'url'    => str_replace('%2F', '/', Url::to(['site/index', 'page' => $page])), 
+			'url'    => str_replace('%2F', '/', Url::to([$route, 'page' => $page])), 
 			'active' => $active,
 		];
 		return $item;
@@ -66,9 +66,11 @@ AppAsset::register($this);
 	}
 	
 	// Setting Breadcrumbs
-	$this->params['breadcrumbs'][] = pMenuItem( $this->title, 'index');
-	if (isset($_GET['page'])) 	$this->params['breadcrumbs'][] = pMenuItem( pageTitle($_GET['page']), $_GET['page']);
-	if (isset($_GET['page2'])) 	$this->params['breadcrumbs'][] = pMenuItem( pageTitle($_GET['page'].'/'.$_GET['page2']), $_GET['page'].'/'.$_GET['page2']);
+	$this->params['breadcrumbs'][] = pMenuItem( $this->title, 'index', 'site/index');
+	if (isset($_GET['page'])) 	
+		$this->params['breadcrumbs'][] = pMenuItem( pageTitle($_GET['page']), $_GET['page'], 'site/index');
+	if (isset($_GET['page2'])) 	
+		$this->params['breadcrumbs'][] = pMenuItem( pageTitle($_GET['page'].'/'.$_GET['page2']), $_GET['page'].'/'.$_GET['page2'], 'site/index');
 		
 	// Nav vidget and genetare menus
 	$pages = Yii::$app->db->createCommand('SELECT title, page FROM pages WHERE page NOT LIKE "%/%"')
@@ -79,27 +81,32 @@ AppAsset::register($this);
 			->bindValue(':pagepattern', $page->page.'/%')
 			->queryAll(\PDO::FETCH_OBJ);
 			
-		$menuitem = pMenuItem($page->title,$page->page);
+		$menuitem = pMenuItem($page->title,$page->page, 'site/index');
 		
 		//Build second level menu
 		if ($subPages)  
 			foreach ($subPages as $subitem) 
-				$menuitem['items'][] = pMenuItem($subitem->title,$subitem->page);
+				$menuitem['items'][] = pMenuItem($subitem->title,$subitem->page, 'site/index');
 		
 		$menuitems[] = $menuitem;
 	}
-	$menuitems[] = ['label' => 'Rólunk', 'url' => ['site/about']];
-	$menuitems[] = ['label' => 'Kapcsolat', 'url' => ['site/contact']];
-	$menuitems[] =
-		Yii::$app->user->isGuest ? (
-			['label' => 'Bejelentkezés', 'url' => ['/site/login']]
-		) : (
-			''
-			. Html::beginForm(['/site/logout'], 'post')
-			. Html::submitButton('Kijelentkezés (' . Yii::$app->user->identity->username . ')', ['class' => 'btn btn-link logout']  )
-			. Html::endForm()
-			
-		);	
+	
+	// if logged in
+	if ( ! Yii::$app->user->isGuest) {
+		// logout form
+		$menuitems[]=''
+		. Html::beginForm(['/site/logout'], 'post')
+		. Html::submitButton('Kijelentkezés (' . Yii::$app->user->identity->username . ')', ['class' => 'btn btn-link logout']  )
+		. Html::endForm();
+		
+		// edit button
+		$editbutton = pMenuItem('szerkeszt', isset($_GET['page2']) ? ($_GET['page'].'/'.$_GET['page2']) : ($_GET['page']), 'site/edit');
+		$editbutton['url'];
+		$menuitems[] = $editbutton;
+	} else {
+		$menuitems[] = ['label' => 'Bejelentkezés', 'url' => ['/site/login']];
+	}
+	
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav nav-pills'],
         'items' => $menuitems ,
@@ -110,7 +117,7 @@ AppAsset::register($this);
 	
     <div class="container">
         <?= Breadcrumbs::widget([
-			'homeLink' => False, 
+			'homeLink' => false, 
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?//= Alert::widget() ?>

@@ -9,7 +9,7 @@ $this->context->layout = 'main.pcms.y.php';
 ?>
 <div class="site-index">
 		
-    <div class="jumbotron">
+    <div>
         <h1><?=$pagedata->title ?></h1>
         <p class="lead">PCMS.Y Bootstrap 4</p>
     </div>

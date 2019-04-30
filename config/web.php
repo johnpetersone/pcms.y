@@ -5,6 +5,7 @@ $db = require __DIR__ . '/db.php';
 
 $config = [
 	'name' => 'PCMS.Y',
+	'language' => 'hu',
     'id' => 'pcms.y.basic.yii',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
@@ -51,8 +52,10 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+				'edit/<page>' => 'site/edit',
+				'edit/<page>/<page2>' => 'site/edit',				
 				'page/<page>' => 'site/index',
-				'page/<page>/<page2>' => 'site/index',
+				'page/<page>/<page2>' => 'site/index',				
 			],
         ],
     ],

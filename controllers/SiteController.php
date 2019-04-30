@@ -8,7 +8,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
+use app\models\editForm;
 use yii\db\Connection;
 
 class SiteController extends Controller
@@ -55,11 +55,6 @@ class SiteController extends Controller
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return string
-     */
     public function actionIndex()
     {
 		$page=$_GET['page'];
@@ -74,11 +69,21 @@ class SiteController extends Controller
 			return $this->render('error', ['name'=>'404', 'message'=>'Az oldal nem található az adatbázisban!']);
     }
 
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
+    public function actionEdit()
+    {
+		$page=$_GET['page'];
+		if (isset($_GET['page2'])) $page.='/'.$_GET['page2'];
+		
+        $model = editForm::find()->where(['page'=>$page])->one();
+
+		if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['page/'.$page]);
+        } else {
+            return $this->render('edit', ['model' => $model]);
+        }		
+		
+    }
+	
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -108,31 +113,4 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
 }
