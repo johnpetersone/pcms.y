@@ -28,7 +28,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 <div class="wrap">
-    <?php				
+    <?php	
 		
 	Navbar::begin([
       'brandLabel' => Yii::$app->name,
@@ -94,23 +94,22 @@ AppAsset::register($this);
 	
 	// if logged in
 	if ( ! Yii::$app->user->isGuest) {
+		// admin menu
+		$menuitem = ['label'=>'Admin menü', 'linkOptions'=>['style'=>'margin-left:5px;']];
 		
 		// edit button
-		$editbutton = pMenuItem('szerkeszt', isset($_GET['page2']) ? ($_GET['page'].'/'.$_GET['page2']) : ($_GET['page']), 'site/edit');
-		$editbutton['linkOptions'] = ['class'=>'btn btn-success active', 'style' => 'margin-left: 5px; border:none;' ]; 
-		$menuitems[] = $editbutton;
+		$menuitem['items'][] = pMenuItem('szerkeszt', isset($_GET['page2']) ? ($_GET['page'].'/'.$_GET['page2']) : ($_GET['page']), 'site/edit');
 		
+		// delete button
+		$menuitem['items'][] = pMenuItem('töröl', isset($_GET['page2']) ? ($_GET['page'].'/'.$_GET['page2']) : ($_GET['page']), 'site/delete');
+
 		// new top menu button
-		$editbutton = pMenuItem('új oldal', isset($_GET['page2']) ? ($_GET['page'].'/'.time()) : (time()), 'site/edit');
-		$editbutton['linkOptions'] = ['class'=>'btn btn-success active', 'style' => 'margin-left: 5px; border:none;' ]; 
-		$menuitems[] = $editbutton;
+		$menuitem['items'][] = pMenuItem('új oldal', isset($_GET['page2']) ? ($_GET['page'].'/'.time()) : (time()), 'site/edit');
 		
-		// logout form
-		$logoutbutton=''
-		. Html::beginForm(['/site/logout'], 'post')
-		. Html::submitButton('Kijelentkezés (' . Yii::$app->user->identity->username . ')', ['class' => 'btn btn-success nav-link active', 'style' => 'border:none; margin-left: 5px;']  )
-		. Html::endForm();
-		$menuitems[] = $logoutbutton;
+		// logout button
+		$menuitem['items'][] = ['label'=>'kijelentkezés ('.Yii::$app->user->identity->username.')', 'url'=>['/site/logout'], 'linkOptions'=>['data-method'=>'post'] ];
+		
+		$menuitems[] = $menuitem;
 
 	} else {
 		$menuitems[] = ['label' => 'Bejelentkezés', 'url' => ['/site/login']];

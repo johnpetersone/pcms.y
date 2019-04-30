@@ -54,9 +54,11 @@ class SiteController extends Controller
             ],
         ];
     }
-
+	
     public function actionIndex()
     {
+		
+		// render page
 		$page=$_GET['page'];
 		if (isset($_GET['page2'])) $page.='/'.$_GET['page2'];
 		
@@ -83,6 +85,15 @@ class SiteController extends Controller
             return $this->render('edit', ['model' => $model]);
         }		
 		
+    }
+	
+    public function actionDelete()  {
+		$page=$_GET['page'];
+		if (isset($_GET['page2'])) $page.='/'.$_GET['page2'];
+		
+		if ($page != 'index')
+			Yii::$app->db->createCommand()->delete('pages', 'page=:page')->bindValue(':page', $page)->execute();
+		$this->goHome();
     }
 	
     public function actionLogin()
