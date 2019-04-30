@@ -94,10 +94,11 @@ AppAsset::register($this);
 	// if logged in
 	if ( ! Yii::$app->user->isGuest) {
 		// logout form
-		$menuitems[]=''
+		$logoutbutton=''
 		. Html::beginForm(['/site/logout'], 'post')
-		. Html::submitButton('Kijelentkezés (' . Yii::$app->user->identity->username . ')', ['class' => 'btn btn-link logout']  )
+		. Html::submitButton('Kijelentkezés (' . Yii::$app->user->identity->username . ')', ['class' => 'btn nav-link active', 'style' => 'border:solid 0px; margin: 0 5px;']  )
 		. Html::endForm();
+		$menuitems[] = $logoutbutton;
 		
 		// edit button
 		$editbutton = pMenuItem('szerkeszt', isset($_GET['page2']) ? ($_GET['page'].'/'.$_GET['page2']) : ($_GET['page']), 'site/edit');
@@ -128,7 +129,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; PCMS.Y <?= date('Y') ?></p>
+        <p class="pull-left">&copy; PCMS.Y Bootstrap 4 <?= date('Y') ?></p>
     </div>
 </footer>
 

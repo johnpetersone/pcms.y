@@ -11,7 +11,6 @@ $this->context->layout = 'main.pcms.y.php';
 		
     <div>
         <h1><?=$pagedata->title ?></h1>
-        <p class="lead">PCMS.Y Bootstrap 4</p>
     </div>
 
     <div class="body-content"><?=$pagedata->html?></div>
