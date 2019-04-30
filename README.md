@@ -10,4 +10,4 @@ INSTALLATION
 
 ### Install via Composer
 
-git: github.com/johnpetersone/pcms.y
+github.com/johnpetersone/pcms.y
