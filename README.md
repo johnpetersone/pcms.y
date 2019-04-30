@@ -8,9 +8,8 @@ PHP7
 INSTALLATION
 ------------
 
-### Install via Composer
-
-github.com/johnpetersone/pcms.y.git
+git clone github.com/johnpetersone/pcms.y.git
+composer update
 
 TRACK
 -----
