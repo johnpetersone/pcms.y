@@ -45,19 +45,21 @@ $config = [
         ],
         'db' => $db,
 				
-				/* urlManager setup*/
+		/* urlManager setup*/
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-				/* index is index */
-				['pattern' => 'site/index',			 										'route' => 'site/index', ],        
-				
+				/* index is index */ 
+				'page/<page>' => 'site/index',
+				'page/<page>/<page2>' => 'site/index',
+				/*
 				['pattern' => 'site/index/<level1>/<level2>/<level3>/<level4>/<level5>', 	'route' => 'site/index', ],        
 				['pattern' => 'site/index/<level1>/<level2>/<level3>/<level4>',				'route' => 'site/index', ],        
 				['pattern' => 'site/index/<level1>/<level2>/<level3>', 						'route' => 'site/index', ],        
 				['pattern' => 'site/index/<level1>/<level2>', 								'route' => 'site/index', ],        
 				['pattern' => 'site/index/<level1>', 									 	'route' => 'site/index', ],        
+				*/
 			],
         ],
     ],

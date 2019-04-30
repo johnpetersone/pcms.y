@@ -9,6 +9,7 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii\db\Connection;
 
 class SiteController extends Controller
 {
@@ -61,12 +62,16 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-		$name = 'John';
-		$age  = '36';
+		$page=$_GET['page'];
+		if (isset($_GET['page2'])) $page.='/'.$_GET['page2'];
 		
-		//print_r($_GET);
-		
-        return $this->render('index', ['name' => $name, 'age' => $age ]);
+		$pagedata = Yii::$app->db->createCommand('SELECT * FROM pages WHERE page=:page')
+			->bindValue(':page', $page)
+			->queryOne(\PDO::FETCH_OBJ);
+		if ($pagedata) 
+			return $this->render('index', ['pagedata' => $pagedata]);
+		else
+			return $this->render('error', ['name'=>'404', 'message'=>'Az oldal nem található az adatbázisban!']);
     }
 
     /**
