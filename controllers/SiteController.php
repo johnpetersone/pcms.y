@@ -75,9 +75,10 @@ class SiteController extends Controller
 		if (isset($_GET['page2'])) $page.='/'.$_GET['page2'];
 		
         $model = editForm::find()->where(['page'=>$page])->one();
-
+		$model = $model ? $model : new editForm();
+		
 		if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['page/'.$page]);
+            return $this->goBack();
         } else {
             return $this->render('edit', ['model' => $model]);
         }		

@@ -54,7 +54,8 @@ AppAsset::register($this);
 		];
 		return $item;
 	}
-	
+
+	// get page title from database
 	function pageTitle($page) {
 		$query = Yii::$app->db->createCommand('SELECT title FROM pages WHERE page=:page')
 			->bindValue(':page', $page)
@@ -72,8 +73,8 @@ AppAsset::register($this);
 	if (isset($_GET['page2'])) 	
 		$this->params['breadcrumbs'][] = pMenuItem( pageTitle($_GET['page'].'/'.$_GET['page2']), $_GET['page'].'/'.$_GET['page2'], 'site/index');
 		
-	// Nav vidget and genetare menus
-	$pages = Yii::$app->db->createCommand('SELECT title, page FROM pages WHERE page NOT LIKE "%/%"')
+	// Nav widget and generate menus
+	$pages = Yii::$app->db->createCommand('SELECT title, page FROM pages WHERE page NOT LIKE "%/%" ORDER BY CASE WHEN page = "index" THEN 0 ELSE 1 END, title')
 		->queryAll(\PDO::FETCH_OBJ);		
 	//Build top level menu
 	foreach ($pages as $page) {
@@ -93,20 +94,28 @@ AppAsset::register($this);
 	
 	// if logged in
 	if ( ! Yii::$app->user->isGuest) {
-		// logout form
-		$logoutbutton=''
-		. Html::beginForm(['/site/logout'], 'post')
-		. Html::submitButton('Kijelentkezés (' . Yii::$app->user->identity->username . ')', ['class' => 'btn nav-link active', 'style' => 'border:solid 0px; margin: 0 5px;']  )
-		. Html::endForm();
-		$menuitems[] = $logoutbutton;
 		
 		// edit button
 		$editbutton = pMenuItem('szerkeszt', isset($_GET['page2']) ? ($_GET['page'].'/'.$_GET['page2']) : ($_GET['page']), 'site/edit');
-		$editbutton['url'];
+		$editbutton['linkOptions'] = ['class'=>'btn btn-success active', 'style' => 'margin-left: 5px; border:none;' ]; 
 		$menuitems[] = $editbutton;
+		
+		// new top menu button
+		$editbutton = pMenuItem('új oldal', isset($_GET['page2']) ? ($_GET['page'].'/'.time()) : (time()), 'site/edit');
+		$editbutton['linkOptions'] = ['class'=>'btn btn-success active', 'style' => 'margin-left: 5px; border:none;' ]; 
+		$menuitems[] = $editbutton;
+		
+		// logout form
+		$logoutbutton=''
+		. Html::beginForm(['/site/logout'], 'post')
+		. Html::submitButton('Kijelentkezés (' . Yii::$app->user->identity->username . ')', ['class' => 'btn btn-success nav-link active', 'style' => 'border:none; margin-left: 5px;']  )
+		. Html::endForm();
+		$menuitems[] = $logoutbutton;
+
 	} else {
 		$menuitems[] = ['label' => 'Bejelentkezés', 'url' => ['/site/login']];
 	}
+	
 	
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav nav-pills'],
