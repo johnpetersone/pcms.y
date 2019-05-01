@@ -27,6 +27,9 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
+
+<? 	if ( (! isset($_GET['page']) && $this->context->module->requestedRoute=='site/index')) {header('Location: '.Yii::$app->homeUrl); die('404 - a keresett oldal nem található');}?>
+
 <div class="wrap">
     <?php	
 		

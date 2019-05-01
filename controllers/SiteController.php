@@ -57,9 +57,10 @@ class SiteController extends Controller
 	
     public function actionIndex()
     {
-		
 		// render page
-		$page=$_GET['page'];
+		if (isset($_GET['page'])) $page=$_GET['page'];
+		else return $this->render('error', ['name'=>'404', 'message'=>'Az oldal nem található!']);
+
 		if (isset($_GET['page2'])) $page.='/'.$_GET['page2'];
 		
 		$pagedata = Yii::$app->db->createCommand('SELECT * FROM pages WHERE page=:page')
@@ -73,6 +74,9 @@ class SiteController extends Controller
 
     public function actionEdit()
     {
+		if (isset($_GET['page'])) $page=$_GET['page'];
+		else return $this->render('error', ['name'=>'404', 'message'=>'Az oldal nem található!']);
+
 		$page=$_GET['page'];
 		if (isset($_GET['page2'])) $page.='/'.$_GET['page2'];
 		
@@ -88,6 +92,9 @@ class SiteController extends Controller
     }
 	
     public function actionDelete()  {
+		if (isset($_GET['page'])) $page=$_GET['page'];
+		else return $this->render('error', ['name'=>'404', 'message'=>'Az oldal nem található!']);
+
 		$page=$_GET['page'];
 		if (isset($_GET['page2'])) $page.='/'.$_GET['page2'];
 		
