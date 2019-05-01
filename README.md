@@ -1,26 +1,26 @@
 REQUIREMENTS
 ------------
 
-Yii2
-MySQL8
-PHP7
-CKEditor
+<P>Yii2</P>
+<P>MySQL8</P>
+<P>PHP7</P>
+<P>CKEditor</P>
 
 INSTALLATION
 ------------
 
-git clone github.com/johnpetersone/pcms.y.git<BR>
-composer update
-open http://yourdomain.net/pcmsroot
-default user/password: admin/admin
+<P>git clone github.com/johnpetersone/pcms.y.git</P>
+<P>composer update</P>
+<P>open http://yourdomain.net/pcmsroot</P>
+<P>default user/password: admin/admin</P>
 
 TRACK
 -----
 
 ### Yii2
-composer create-project --prefer-dist yiisoft/yii2-app-basic basic
+<P>composer create-project --prefer-dist yiisoft/yii2-app-basic basic</P>
 
 ### Twitter Bootstrap4
-https://packagist.org/packages/yiisoft/yii2-bootstrap4<BR>
-require --prefer-dist yiisoft/yii2-bootstrap4<BR>
+<P>https://packagist.org/packages/yiisoft/yii2-bootstrap4</P>
+<P>require --prefer-dist yiisoft/yii2-bootstrap4</P>
 
