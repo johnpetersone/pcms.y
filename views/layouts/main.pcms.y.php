@@ -100,15 +100,19 @@ AppAsset::register($this);
 		// admin menu
 		$menuitem = ['label'=>'Admin menü', 'linkOptions'=>['style'=>'margin-left:5px;']];
 		
-		// edit button
-		$menuitem['items'][] = pMenuItem('szerkeszt', isset($_GET['page2']) ? ($_GET['page'].'/'.$_GET['page2']) : ($_GET['page']), 'site/edit');
-		
-		// delete button
-		$menuitem['items'][] = pMenuItem('töröl', isset($_GET['page2']) ? ($_GET['page'].'/'.$_GET['page2']) : ($_GET['page']), 'site/delete');
+		if (isset($_GET['page'])) {
+			// edit button
+			$menuitem['items'][] = pMenuItem('szerkeszt', isset($_GET['page2']) ? ($_GET['page'].'/'.$_GET['page2']) : ($_GET['page']), 'site/edit');
+			
+			// delete button
+			$menuitem['items'][] = pMenuItem('töröl', isset($_GET['page2']) ? ($_GET['page'].'/'.$_GET['page2']) : ($_GET['page']), 'site/delete');
 
-		// new top menu button
-		$menuitem['items'][] = pMenuItem('új oldal', isset($_GET['page2']) ? ($_GET['page'].'/'.time()) : (time()), 'site/edit');
-		
+			// new top menu button
+			$menuitem['items'][] = pMenuItem('új oldal', isset($_GET['page2']) ? ($_GET['page'].'/'.time()) : (time()), 'site/edit');
+
+			// image button
+			$menuitem['items'][] = ['label' => 'Kép feltöltés', 'url' => ['/site/image']];
+		}	
 		// logout button
 		$menuitem['items'][] = ['label'=>'kijelentkezés ('.Yii::$app->user->identity->username.')', 'url'=>['/site/logout'], 'linkOptions'=>['data-method'=>'post'] ];
 		
