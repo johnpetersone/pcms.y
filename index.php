@@ -42,7 +42,14 @@
 	# CHECK FIELDS
 	if( ! $dbh->query('SELECT page, title, html, description, keywords FROM pages LIMIT 1') ) {
 		die($dbh->errorInfo()[2].' Malformed table, please drop PAGES table manually');
-	}	
+	}
+	#uploads folder missing
+	if ( ! file_exists('uploads') ) {
+		if ( ! mkdir('uploads') ) die(getcwd().'/uploads folder missing. please create manually.');
+	}
+	chmod('uploads',0777);
+	if( ! (decoct(fileperms('uploads')%512) == '777')) die (getcwd().'/uploads folder permissions need to be 777. could you please maybe aaaaa, you know.');
+	
 	
 	?></DIV><?
 	header('Location:web/page/index'); 

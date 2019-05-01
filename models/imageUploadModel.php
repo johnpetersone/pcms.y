@@ -21,7 +21,8 @@ class imageUploadModel extends Model
     public function upload()
     {
         if ($this->validate()) {
-            $this->imageFile->saveAs(getcwd().'/../uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension);
+			$dstImage = getcwd().'/../uploads/' . $this->imageFile->baseName . '.' . $this->imageFile->extension;
+            $this->imageFile->saveAs($dstImage);
             return true;
         } else {
             return false;
