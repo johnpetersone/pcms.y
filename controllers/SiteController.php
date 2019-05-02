@@ -66,7 +66,7 @@ class SiteController extends Controller
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             if ($model->upload()) {
                 // file is uploaded successfully
-                return $this->goBack();
+                return $this->redirect(['site/image']);
             }
         }
 
@@ -75,12 +75,20 @@ class SiteController extends Controller
 	
     public function actionIndex()
     {
-		// render page
 		if (isset($_GET['page'])) $page=$_GET['page'];
 		else return $this->render('error', ['name'=>'404', 'message'=>'Az oldal nem található!']);
-
 		if (isset($_GET['page2'])) $page.='/'.$_GET['page2'];
+	
+		# Set META
+		$query = Yii::$app->db->createCommand('SELECT keywords, description FROM pages WHERE page=:page')
+			->bindValue(':page', $page)
+			->queryOne(\PDO::FETCH_OBJ);
+		if ($query) {
+			Yii::$app->view->registerMetaTag(['name' => 'description', 'content' => $query->description]);
+			Yii::$app->view->registerMetaTag(['name' => 'keywords',    'content' => $query->keywords]);		
+		}
 		
+		# render page		
 		$pagedata = Yii::$app->db->createCommand('SELECT * FROM pages WHERE page=:page')
 			->bindValue(':page', $page)
 			->queryOne(\PDO::FETCH_OBJ);
