@@ -100,6 +100,9 @@ class SiteController extends Controller
 
     public function actionEdit()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->goBack();
+        }
 		if (isset($_GET['page'])) $page=$_GET['page'];
 		else return $this->render('error', ['name'=>'404', 'message'=>'Az oldal nem található!']);
 
@@ -118,6 +121,10 @@ class SiteController extends Controller
     }
 	
     public function actionDelete()  {
+        if (Yii::$app->user->isGuest) {
+            return $this->goBack();
+        }
+		
 		if (isset($_GET['page'])) $page=$_GET['page'];
 		else return $this->render('error', ['name'=>'404', 'message'=>'Az oldal nem található!']);
 
