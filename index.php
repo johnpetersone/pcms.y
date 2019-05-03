@@ -26,7 +26,7 @@
 	
 	# CHECK pages TABLE OR CREATE
 	if( ! $dbh->query('SELECT 1 FROM pages') ) { 
-		$result = $dbh->query('CREATE TABLE `pages` (`key` int(11) NOT NULL, `page` text NOT NULL, `title` text NOT NULL,`html` text NOT NULL,`description` text, `keywords` text) DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=COMPACT;'); 
+		$result = $dbh->query('CREATE TABLE `pages` (`key` int(11) NOT NULL, `page` text NOT NULL, `title` text NOT NULL,`html` text NOT NULL,`description` text, `keywords` text) DEFAULT CHARSET=utf8mb4  ROW_FORMAT=COMPACT;'); 
 		if ( ! $result) die($dbh->errorInfo()[2].' can\'t create table, please drop PAGES table manually'); 
 		
 		$result = $dbh->query('INSERT INTO `pages` (`key`, `page`, `title`, `html`, `description`, `keywords`) VALUES (1, "index", "index", "<h2>happy cmsing</h2>", "pcms", "pcms");'); 
