@@ -5,6 +5,9 @@ REQUIREMENTS
 <P>MySQL8</P>
 <P>PHP7</P>
 <P>CKEditor</P>
+<P>PHP Short open tag / shorthand</P>
+<P>Apache2 rewrite module for htaccess</P>
+
 
 INSTALLATION
 ------------
