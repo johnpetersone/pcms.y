@@ -4,7 +4,7 @@ return [
     'class' => 'yii\db\Connection',
     'dsn' => 'mysql:host=localhost;dbname=pcms.y',
     'username' => 'root',
-    'password' => 'Pt35p455w',
+    'password' => '',
     'charset' => 'utf8',
 
     // Schema cache options (for production environment)
